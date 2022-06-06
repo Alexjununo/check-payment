@@ -1,67 +1,28 @@
-const camposConvenio = {
-  productCode: '',
-  segmentCode: '',
-  valueCode: '',
-  value: '',
-  companyCode: '',
-  cnpj: '',
-  freeField: '',
-};
+const createHttpError = require('http-errors');
+const paymentFactory = require('./paymentFactory');
 
-const camposTitulo = {
-  bankCode: '',
-  currencyCode: '',
-  verifyingDigit: '',
-  expirate: '',
-  value: '',
-  freeField: '',
-};
+const validationPayment = (typeableLine, logger) => {
+  const CONVENIO = 48;
 
-const decode = (barCode) => {
-  let layout = camposConvenio;
+  if (typeableLine.length >= CONVENIO) {
+    const message = 'Invalid Payment';
 
-  if (barCode.slice(0, 1) === '8') {
-    layout.productCode = barCode.slice(0, 3);
-    layout.segmentCode = barCode.slice(3, 4);
-    layout.valueCode = barCode.slice(4, 5);
-    layout.value = barCode.slice(5, 9);
-    layout.companyCode = barCode.slice(9, 19);
-    layout.cnpj = barCode.slice(19, 0);
-    layout.freeField = barCode.slice(19, 43);
-  } else {
-    layout = camposTitulo;
-
-    layout.bankCode = barCode.slice(0, 3);
-    layout.currencyCode = barCode.slice(3, 4);
-    layout.verifyingDigit = barCode.slice(4, 5);
-    layout.expirate = barCode.slice(5, 9);
-    layout.value = barCode.slice(9, 19);
-    layout.freeField = barCode.slice(19, 43);
+    logger.error(message);
+    throw createHttpError(400, { message });
   }
 
-  return layout;
+  return paymentFactory.decodeTypeableLine(typeableLine);
 };
 
-exports.getPaymentInfos = async (digitableLine, logger) => {
+exports.getPaymentInfos = async (typeableLine, logger) => {
   try {
-    const paymentObj = decode(digitableLine);
+    const paymentObj = validationPayment(typeableLine, logger);
 
-    const digitableLineString = digitableLine.toString();
-
-    console.log('🚀 ~ file: PaymentModel.js ~ line 2 ~ exports.getPaymentInfos= ~ digitableLine', digitableLineString);
-
-    logger.info('PaymentModel: generated payment');
-
-    return {
-      barCode: '21299758700000020000001121100012100447561740',
-      amount: '20.00',
-      expirationDate: '2018-07-16',
-      ...paymentObj,
-    };
+    return paymentObj;
   } catch (err) {
     logger.error(err);
 
-    throw new Error(err);
+    throw createHttpError(500, { message: err.message });
   }
 };
 

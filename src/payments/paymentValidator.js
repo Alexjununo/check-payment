@@ -1,7 +1,7 @@
 const Joi = require('joi');
 
 const paymentSchema = Joi.object({
-  digitableLine: Joi.string(),
+  typeableLine: Joi.string().regex(/^[0-9]+$/).required(),
 });
 
 module.exports = paymentSchema;
