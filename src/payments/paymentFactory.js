@@ -1,5 +1,5 @@
 const positions = require('./fields/positions');
-const utils = require('../utils');
+const getDigitsByPosition = require('../utils');
 const decodeFirstField = require('./fields/firstField');
 const decodeSecondField = require('./fields/secondField');
 const decodeThirdField = require('./fields/thirdField');
@@ -49,7 +49,7 @@ const createDigits = (typeableLine) => {
 };
 
 const createFirstField = (digits) => {
-  const fieldDigits = utils.getDigitsByPosition(
+  const fieldDigits = getDigitsByPosition(
     digits,
     FirstFieldPositions.start,
     FirstFieldPositions.end,
@@ -59,7 +59,7 @@ const createFirstField = (digits) => {
 };
 
 const createSecondField = (digits) => {
-  const fieldDigits = utils.getDigitsByPosition(
+  const fieldDigits = getDigitsByPosition(
     digits,
     SecondFieldPositions.start,
     SecondFieldPositions.end,
@@ -69,7 +69,7 @@ const createSecondField = (digits) => {
 };
 
 const createThirdField = (digits) => {
-  const fieldDigits = utils.getDigitsByPosition(
+  const fieldDigits = getDigitsByPosition(
     digits,
     ThirdFieldPositions.start,
     ThirdFieldPositions.end,
@@ -79,7 +79,7 @@ const createThirdField = (digits) => {
 };
 
 const createFourField = (digits) => {
-  const fieldDigits = utils.getDigitsByPosition(
+  const fieldDigits = getDigitsByPosition(
     digits,
     FourFieldPositions.start,
     FourFieldPositions.end,
@@ -89,7 +89,7 @@ const createFourField = (digits) => {
 };
 
 const createFifthField = (digits) => {
-  const fieldDigits = utils.getDigitsByPosition(
+  const fieldDigits = getDigitsByPosition(
     digits,
     FifthFieldPositions.start,
   );

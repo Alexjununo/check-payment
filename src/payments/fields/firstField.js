@@ -1,19 +1,19 @@
-const utils = require('../../utils');
+const getDigitsByPosition = require('../../utils');
 const positions = require('./positions');
 
 module.exports = (digits) => {
   const { FirstFieldPositions } = positions;
-  const bankCode = utils.getDigitsByPosition(
+  const bankCode = getDigitsByPosition(
     digits,
     FirstFieldPositions.bankCodeStart,
     FirstFieldPositions.bankCodeEnd,
   );
-  const currencyCode = utils.getDigitsByPosition(
+  const currencyCode = getDigitsByPosition(
     digits,
     FirstFieldPositions.currencyCodeStart,
     FirstFieldPositions.currencyCodeEnd,
   );
-  const barCode20to24Positions = utils.getDigitsByPosition(
+  const barCode20to24Positions = getDigitsByPosition(
     digits,
     FirstFieldPositions.barCode20to24PositionsStart,
     FirstFieldPositions.barCode20to24PositionsEnd,

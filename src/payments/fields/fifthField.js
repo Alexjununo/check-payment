@@ -1,19 +1,17 @@
 const moment = require('moment');
-const utils = require('../../utils');
+const getDigitsByPosition = require('../../utils');
 const positions = require('./positions');
 
 const BASE_DATE = '1997-10-07';
 const BASE_FACTOR = 1001;
 
-const concatDigits = (digits) => {
-  const values = digits.map((digit) => digit.value);
-
-  return values.reduce((prev, curr) => {
+const concatDigits = (digits) => digits
+  .map((digit) => digit.value)
+  .reduce((prev, curr) => {
     const stringValue = prev.toString() + curr.toString();
 
     return parseInt(stringValue, 10);
   }, 0);
-};
 
 const getExpirationDate = (expirationFactor) => {
   if (expirationFactor[0].value === 0) { return null; }
@@ -39,12 +37,12 @@ const getAmount = (valueDigits) => {
 
 module.exports = (digits) => {
   const { FifthFieldPositions } = positions;
-  const expirationDateFactor = utils.getDigitsByPosition(
+  const expirationDateFactor = getDigitsByPosition(
     digits,
     FifthFieldPositions.dueDateFactorStart,
     FifthFieldPositions.dueDateFactorEnd,
   );
-  const valueDigits = utils.getDigitsByPosition(
+  const valueDigits = getDigitsByPosition(
     digits,
     FifthFieldPositions.barCodeValueDigitsStart,
   );
