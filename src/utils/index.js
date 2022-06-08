@@ -1,13 +1,9 @@
 exports.getDigitsByPosition = (digits, start, end = null) => {
-  const startFilter = digits.filter((digit) => digit.position >= start);
+  const digitsFiltered = digits.filter((digit) => (end
+    ? digit.position >= start && digit.position <= end
+    : digit.position >= start));
 
-  if (end) {
-    const endFilter = startFilter.filter((digit) => digit.position <= end);
-
-    return endFilter;
-  }
-
-  return startFilter;
+  return digitsFiltered;
 };
 
 module.exports = exports;
